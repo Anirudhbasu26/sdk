@@ -1027,13 +1027,12 @@ async function executeMethod(methodName) {
 }
 
 async function callSynupAPI(apiKey, methodName, params, method) {
-  // This explorer makes direct REST calls to the Synup API
-  // matching the SDK's internal routing logic
-  // Use local proxy on localhost, direct API otherwise
+  // Route through HF backend proxy which forwards to Synup API
   const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  const BASE = isLocal ? "/api/v4" : "https://api.synup.com/api/v4";
+  const BACKEND = isLocal ? "" : "https://basu2604-synup-sdk.hf.space";
+  const BASE = `${BACKEND}/api/v4`;
   const headers = {
-    "Authorization": `API ${apiKey}`,
+    "X-API-Key": apiKey,
     "Content-Type": "application/json",
   };
 

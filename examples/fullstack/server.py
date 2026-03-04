@@ -13,12 +13,15 @@ Users provide their own API key via the X-API-Key header.
 
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query, Body, Header
+import httpx
+from fastapi import FastAPI, HTTPException, Query, Body, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from synup import SynupClient, SynupAPIError
+
+SYNUP_API_BASE = "https://api.synup.com/api/v4"
 
 app = FastAPI(title="Synup Full-stack Sample")
 
@@ -231,6 +234,31 @@ def connected_accounts(publisher: str | None = None, page: int = 1, x_api_key: s
         return client.fetch_connected_accounts(**kwargs)
     except SynupAPIError as e:
         raise HTTPException(status_code=e.status_code or 500, detail=str(e))
+
+
+# ── Proxy: forward /api/v4/* to Synup API ─────────────────
+
+@app.api_route("/api/v4/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def proxy_synup(path: str, request: Request):
+    api_key = request.headers.get("x-api-key")
+    if not api_key:
+        raise HTTPException(status_code=401, detail="Missing X-API-Key header")
+    target = f"{SYNUP_API_BASE}/{path}"
+    if request.url.query:
+        target += f"?{request.url.query}"
+    fwd_headers = {
+        "Authorization": f"API {api_key}",
+        "Content-Type": "application/json",
+    }
+    body = await request.body()
+    async with httpx.AsyncClient(timeout=30) as client:
+        resp = await client.request(
+            method=request.method,
+            url=target,
+            headers=fwd_headers,
+            content=body if body else None,
+        )
+    return JSONResponse(status_code=resp.status_code, content=resp.json())
 
 
 # ── Serve frontend ─────────────────────────────────────────
