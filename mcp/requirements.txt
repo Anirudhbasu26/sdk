@@ -1,0 +1,2 @@
+synup-sdk
+fastmcp>=2.0

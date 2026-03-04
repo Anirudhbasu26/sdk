@@ -1,0 +1,44 @@
+site_name: Synup SDK Documentation
+site_description: Python SDK for building custom applications on Synup infrastructure
+repo_url: https://github.com/nicholasgasior/synup-sdk
+
+theme:
+  name: material
+  palette:
+    primary: deep purple
+    accent: amber
+  features:
+    - navigation.sections
+    - navigation.expand
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Use Cases: use-cases.md
+  - API Reference: api-reference.md
+  - Dashboard: dashboard.md
+  - MCP Server: mcp.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: false
+            show_root_heading: true
+            heading_level: 3
+            members_order: source
+            show_category_heading: true
+            docstring_style: google
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
