@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDK — Synup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="https://www.synup.dev/" class="nav-logo">synup<span class="nav-logo-accent">.dev</span></a>
+      <div class="nav-links">
+        <a href="#install">Install</a>
+        <a href="#apis">APIs</a>
+        <a href="#examples">Samples</a>
+        <a href="#explorer">Explorer</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://www.synup.dev/" target="_blank" class="btn btn-primary">Get API Key</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container hero-inner">
+      <div class="badge">SDK for Synup API</div>
+      <h1>Build on Synup's<br><span class="text-accent">local presence</span> infrastructure</h1>
+      <p class="hero-subtitle">Listings, reviews, and local search. One install, full API coverage, zero boilerplate.</p>
+      <div class="hero-actions">
+        <a href="#install" class="btn btn-primary btn-lg">Get started</a>
+        <a href="#explorer" class="btn btn-secondary btn-lg">Try it live</a>
+      </div>
+
+      <!-- Code preview -->
+      <div class="code-window">
+        <div class="code-header">
+          <div class="code-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="code-filename">quickstart.py</span>
+        </div>
+        <pre class="code-body"><code><span class="kw">from</span> <span class="mod">synup</span> <span class="kw">import</span> <span class="cls">SynupClient</span>
+
+client = <span class="cls">SynupClient</span>(api_key=<span class="str">"YOUR_API_KEY"</span>)
+
+<span class="cmt"># Fetch all locations</span>
+locations = client.fetch_all_locations(fetch_all=<span class="kw">True</span>)
+
+<span class="cmt"># Get reviews for a location</span>
+reviews = client.fetch_interactions(<span class="num">16808</span>, first=<span class="num">20</span>)
+
+<span class="cmt"># Respond to a review</span>
+client.respond_to_review(
+    interaction_id=<span class="str">"review-uuid"</span>,
+    response_content=<span class="str">"Thank you for your feedback!"</span>
+)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section id="install" class="section">
+    <div class="container">
+      <h2 class="section-title">Install in seconds</h2>
+      <p class="section-subtitle">One command. No heavy dependencies.</p>
+
+      <div class="install-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Install the SDK</h3>
+          <div class="code-inline"><code>pip install synup-sdk</code></div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Get your API key</h3>
+          <p class="text-muted">Settings &rarr; Integrations &rarr; Generate in your <a href="https://www.synup.dev/" class="link-accent">Synup workspace</a></p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Start building</h3>
+          <div class="code-inline"><code>client = SynupClient(api_key="...")</code></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Built for developers</h2>
+      <p class="section-subtitle"></p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <h3>Full API coverage</h3>
+          <p>Locations, listings, reviews, rankings, analytics, users, and more.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128268;</div>
+          <h3>Thin wrapper</h3>
+          <p>Returns raw API data. No opinionated models. Bring your own data layer.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128196;</div>
+          <h3>Auto-pagination</h3>
+          <p>Pass <code>fetch_all=True</code> to any list method. The SDK handles cursor logic.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128273;</div>
+          <h3>Auto-encoding</h3>
+          <p>Pass numeric IDs like <code>16808</code>. The SDK base64-encodes them automatically.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128214;</div>
+          <h3>Full docstrings</h3>
+          <p>Every method has Args, Returns, and Example. IDE autocompletion just works.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128736;</div>
+          <h3>Error handling</h3>
+          <p>Clear exceptions with HTTP status and response body. Easy to debug.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APIs -->
+  <section id="apis" class="section">
+    <div class="container">
+      <h2 class="section-title">Every API, one client</h2>
+      <p class="section-subtitle">All endpoints accessible through <code>SynupClient</code>.</p>
+
+      <div class="api-grid">
+        <div class="api-card">
+          <div class="api-method get">GET</div>
+          <div class="api-info">
+            <h3>Locations API</h3>
+            <p>Create, update, search, and manage business locations. Organize with folders and tags.</p>
+            <div class="api-methods-list">fetch_all_locations &middot; search_locations &middot; create_location &middot; update_location &middot; archive_locations</div>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-method get">GET</div>
+          <div class="api-info">
+            <h3>Listings Sync API</h3>
+            <p>Push business data to 80+ directories. Check sync status and detect duplicates.</p>
+            <div class="api-methods-list">fetch_premium_listings &middot; fetch_voice_listings &middot; fetch_ai_listings</div>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-method post">POST</div>
+          <div class="api-info">
+            <h3>Reviews API</h3>
+            <p>Aggregate reviews from all platforms. Respond programmatically. Get sentiment analytics.</p>
+            <div class="api-methods-list">fetch_interactions &middot; respond_to_review &middot; fetch_review_analytics_overview &middot; fetch_review_phrases</div>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-method get">GET</div>
+          <div class="api-info">
+            <h3>Rankings API</h3>
+            <p>Track keyword positions and local pack rankings. Generate grid rank heatmaps.</p>
+            <div class="api-methods-list">fetch_keywords &middot; fetch_keywords_performance &middot; create_grid_report &middot; fetch_grid_report</div>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-method get">GET</div>
+          <div class="api-info">
+            <h3>Analytics API</h3>
+            <p>Unified insights from Google Business Profile, Facebook, and Bing.</p>
+            <div class="api-methods-list">fetch_google_analytics &middot; fetch_bing_analytics &middot; fetch_facebook_analytics</div>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-method post">POST</div>
+          <div class="api-info">
+            <h3>Review Campaigns API</h3>
+            <p>Send automated review requests via SMS and email. Customize templates.</p>
+            <div class="api-methods-list">create_review_campaign &middot; add_review_campaign_customers &middot; fetch_review_campaigns</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Samples -->
+  <section id="examples" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Use cases</h2>
+      <p class="section-subtitle">Runnable scripts for common workflows. Set <code>SYNUP_API_KEY</code> and go.</p>
+
+      <div class="examples-grid">
+        <div class="example-card" onclick="showExample('quickstart')">
+          <div class="example-num">01</div>
+          <h3>Quick Start</h3>
+          <p>Connect and fetch your first locations in 5 lines.</p>
+        </div>
+        <div class="example-card" onclick="showExample('reviews')">
+          <div class="example-num">02</div>
+          <h3>Review Monitoring</h3>
+          <p>Scan locations for negative reviews that need attention.</p>
+        </div>
+        <div class="example-card" onclick="showExample('analytics')">
+          <div class="example-num">03</div>
+          <h3>Analytics Report</h3>
+          <p>Pull Google, Bing, and review analytics across locations.</p>
+        </div>
+        <div class="example-card" onclick="showExample('listings')">
+          <div class="example-num">04</div>
+          <h3>Listings Audit</h3>
+          <p>Audit listing sync status and flag issues across locations.</p>
+        </div>
+        <div class="example-card" onclick="showExample('users')">
+          <div class="example-num">05</div>
+          <h3>User Management</h3>
+          <p>Create users, assign roles, and manage location access.</p>
+        </div>
+        <div class="example-card" onclick="showExample('google')">
+          <div class="example-num">06</div>
+          <h3>Google Connect</h3>
+          <p>Full OAuth flow for connecting Google Business Profiles.</p>
+        </div>
+        <div class="example-card" onclick="showExample('gridrank')">
+          <div class="example-num">07</div>
+          <h3>Grid Rank</h3>
+          <p>Create Local Rank Grid reports for geographic ranking data.</p>
+        </div>
+        <div class="example-card" onclick="showExample('campaigns')">
+          <div class="example-num">08</div>
+          <h3>Review Campaigns</h3>
+          <p>Run review solicitation campaigns with SMS and email.</p>
+        </div>
+        <div class="example-card" onclick="showExample('fastapi')">
+          <div class="example-num">09</div>
+          <h3>FastAPI Backend</h3>
+          <p>Wire the SDK into a REST API your frontend can call.</p>
+        </div>
+        <div class="example-card" onclick="showExample('fullstack')">
+          <div class="example-num">10</div>
+          <h3>Full-stack Dashboard</h3>
+          <p>Complete app with FastAPI backend + basic frontend for locations and listings.</p>
+        </div>
+      </div>
+
+      <!-- Example Modal -->
+      <div class="modal-overlay" id="exampleModal" onclick="closeExample(event)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modalTitle"></h3>
+            <button class="modal-close" onclick="closeExample()">&times;</button>
+          </div>
+          <div class="modal-tabs" id="modalTabs" style="display:none"></div>
+          <div class="code-window modal-code">
+            <div class="code-header">
+              <div class="code-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <span class="code-filename" id="modalFilename"></span>
+              <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy</button>
+            </div>
+            <pre class="code-body"><code id="modalCode"></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explorer -->
+  <section id="explorer" class="section">
+    <div class="container">
+      <h2 class="section-title">Try it live</h2>
+      <p class="section-subtitle">Enter your API key to explore any endpoint. Responses shown as JSON.</p>
+
+      <div class="explorer-container">
+        <div class="explorer-sidebar">
+          <div class="explorer-input-group">
+            <label>API Key</label>
+            <input type="password" id="apiKeyInput" placeholder="Enter your Synup API key">
+          </div>
+          <div class="explorer-input-group">
+            <label>Category</label>
+            <select id="categorySelect">
+              <option value="all">All</option>
+            </select>
+          </div>
+          <div class="explorer-input-group">
+            <label>Search</label>
+            <input type="text" id="searchInput" placeholder="Search methods...">
+          </div>
+          <div class="explorer-methods" id="methodList"></div>
+        </div>
+        <div class="explorer-main">
+          <div class="explorer-detail" id="methodDetail">
+            <div class="explorer-empty">Select a method from the sidebar to get started.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>SDK</h4>
+          <a href="#install">Install</a>
+          <a href="#examples">Samples</a>
+          <a href="#explorer">Explorer</a>
+        </div>
+        <div class="footer-col">
+          <h4>Developers</h4>
+          <a href="https://www.synup.dev/">synup.dev</a>
+          <a href="https://www.synup.dev/">API Reference</a>
+          <a href="https://pypi.org/project/synup-sdk/" target="_blank">Documentation</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="https://synup.com">synup.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="nav-logo">synup<span class="nav-logo-accent">.dev</span></span>
+        <span class="text-muted">&copy; 2026 Synup, Inc. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="explorer.js"></script>
+</body>
+</html>
